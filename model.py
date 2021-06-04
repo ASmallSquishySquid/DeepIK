@@ -20,13 +20,15 @@ def create_model():
 	model.compile(optimizer = "adam", loss='mse',  metrics=['mae'])
 	return model
 
-data = pd.read_csv("pa10_1k.csv", header=None, delimiter="\s+")
+data = pd.read_csv("pa10_config000_50k.csv", header=None, delimiter="\s+")
 features = data.iloc[:, 1:7]
 labels = data.iloc[:, 7:14]
 features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size = 0.25)
 
 model = create_model()
-stop = EarlyStopping(monitor="loss", mode='min', verbose=1, patience=40)
-model.fit(features_train, labels_train, epochs = 400, verbose = 1, callbacks=[stop], batch_size=20)
+stop = EarlyStopping(monitor="loss", mode='min', verbose=1, patience=100)
+model.fit(features_train, labels_train, epochs = 1000, verbose = 1, callbacks=[stop], batch_size=500)
 val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
+
+# model.save_weights("network")
