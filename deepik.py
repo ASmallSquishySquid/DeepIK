@@ -156,35 +156,36 @@ Ytest = normalizeDataWithBounds(Ytest, dimY, bounds, -1, 1)
 
 # Define network
 model = Sequential()
-model.add(Dense(dimX, input_dim=dimX, init='uniform', bias=False))
+model.add(Dense(dimX, use_bias=False))
 model.add(Activation('tanh'))
 model.add(Dropout(0.05))
-model.add(Dense(150, init='uniform', bias=False))
+model.add(Dense(150, use_bias=False))
 model.add(Activation('tanh'))
 model.add(Dropout(0.05))
-model.add(Dense(75, init='uniform', bias=False))
+model.add(Dense(75, use_bias=False))
 model.add(Activation('tanh'))
 model.add(Dropout(0.05))
-model.add(Dense(50, init='uniform', bias=False))
+model.add(Dense(50, use_bias=False))
 model.add(Activation('tanh'))
 model.add(Dropout(0.05))
-model.add(Dense(25, init='uniform', bias=False))
+model.add(Dense(25, use_bias=False))
 model.add(Activation('tanh'))
 model.add(Dropout(0.05))
-model.add(Dense(10, init='uniform', bias=False))
+model.add(Dense(10, use_bias=False))
 model.add(Activation('tanh'))
 model.add(Dropout(0.05))
-model.add(Dense(dimY, init='uniform', bias=False))
+model.add(Dense(dimY, use_bias=False))
 model.add(Activation('tanh'))
 
 # Generate network
-opt = Optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=1e-06, decay=0.0)
+opt = Optimizers.RMSprop(learning_rate=0.001, rho=0.9, epsilon=1e-06, decay=0.0)
 model.compile(optimizer=opt, loss='mse')
 
 # Train network
 epoch = 0
 error = 2
-while error > 0.001:
+# while error > 0.001:
+while epoch < 1000:
     epoch += 1
     error = model.train_on_batch(X, Y)
     print('==========')
