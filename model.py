@@ -10,11 +10,10 @@ def create_model():
 	model.add(InputLayer(input_shape=(6,)))
 	# hidden layers
 	model.add(Dense(128, activation = "relu"))
-	model.add(Dropout(rate = 0.2))
+	model.add(Dropout(rate = 0.05))
 	model.add(Dense(64, activation = "relu"))
-	model.add(Dropout(rate = 0.2))
+	model.add(Dropout(rate = 0.05))
 	model.add(Dense(32, activation = "relu"))
-	model.add(Dropout(rate = 0.2))
 	# output layer
 	model.add(Dense(7))
 	model.compile(optimizer = "adam", loss='mse',  metrics=['mae'])
