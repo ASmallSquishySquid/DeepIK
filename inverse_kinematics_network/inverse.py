@@ -1,6 +1,7 @@
 from keras.layers import Dense, InputLayer, Dropout
 from keras.models import Sequential
 from keras.callbacks import EarlyStopping
+from keras.optimizers import Adam
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
@@ -35,7 +36,8 @@ def create_model():
 	model.add(Dense(32, activation = "relu"))
 	# output layer
 	model.add(Dense(6))
-	model.compile(optimizer = "adam", loss='mse',  metrics=['mae'])
+	opt = Adam(learning_rate = 0.001)
+	model.compile(optimizer = opt, loss='mse',  metrics=['mae'])
 	return model
 
 def fit_model(model, features, labels, epochs, batch_size):
@@ -49,7 +51,7 @@ features = data.iloc[:, 7:14]
 features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size = 0.25)
 
 model = create_model()
-history = fit_model(model, features_train, labels_train, 500, 512)
+history = fit_model(model, features_train, labels_train, 1000, 512)
 plot(history, "inverse_kinematics_network/model_history.png")
 val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
