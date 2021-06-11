@@ -56,4 +56,4 @@ plot(history, "inverse_kinematics_network/model_history.png")
 val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
 
-model.save_weights("inverse_kinematics_network/network")
+model.save("inverse_kinematics_network/network")

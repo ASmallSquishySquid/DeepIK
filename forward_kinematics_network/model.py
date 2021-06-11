@@ -50,8 +50,8 @@ features_train, features_test, labels_train, labels_test = train_test_split(feat
 
 model = create_model()
 history = fit_model(model, features_train, labels_train, 1500, 750)
-plot(history, "forwards_kinematics_network/model_history.png")
+# plot(history, "forward_kinematics_network/model_history.png")
 val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
 
-model.save_weights("network")
+# model.save("forward_kinematics_network/network")
