@@ -6,14 +6,14 @@ import matplotlib.pyplot as plt
 manual = pd.read_csv("manual_testing/Book1.csv", header = None)
 manual_features = manual.iloc[:, :6]
 manual_labels = manual.iloc[:, 6:]
-model = load_model("manual_testing/xyz_network")
+model = load_model("forward_kinematics_network/network")
 
 # val_mse, val_mae = model.evaluate(manual_features, manual_labels, verbose = 0)
 # print(val_mse, val_mae)
 
 results = list(model.predict(manual_features))
 predicted = pd.DataFrame(np.vstack(results))
-predicted.to_csv("manual_testing/predicted.csv")
+predicted.to_csv("manual_testing/forward_predicted.csv")
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
 x1 = manual[6].tolist()
@@ -29,5 +29,5 @@ ax2.plot(y2, z2, label = "Predicted")
 ax1.set(xlabel = "X-Value", ylabel = "Z-Value")
 ax2.set(xlabel = "Y-Value")
 plt.legend()
-plt.savefig("manual_testing/comparison.png")
+plt.savefig("manual_testing/foward_comparison.png")
 plt.show()
