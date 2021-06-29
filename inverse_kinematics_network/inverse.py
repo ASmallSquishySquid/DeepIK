@@ -36,8 +36,7 @@ def create_model():
 	model.add(Dense(32, activation = "relu"))
 	# output layer
 	model.add(Dense(6))
-	opt = Adam(learning_rate = 0.001)
-	model.compile(optimizer = opt, loss='mse',  metrics=['mae'])
+	model.compile(optimizer = "adam", loss='mse',  metrics=['mae'])
 	return model
 
 def fit_model(model, features, labels, epochs, batch_size):
@@ -45,13 +44,16 @@ def fit_model(model, features, labels, epochs, batch_size):
 	history = model.fit(features, labels, epochs = epochs, verbose = 1, callbacks=[stop], batch_size=batch_size, validation_split = 0.1)
 	return history
 
-data = pd.read_csv("pa10_config000_50k.csv", header=None, delimiter="\s+")
-labels = data.iloc[:, 1:7]
-features = data.iloc[:, 7:14]
-features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size = 0.25)
+train = pd.read_csv("pa10_config000_50k.csv", header=None, delimiter="\s+")
+labels_train = train.iloc[:, 1:7]
+features_train = train.iloc[:, 7:14]
+test = pd.read_csv("pa10_config000_10k.csv", header=None, delimiter="\s+")
+labels_test = test.iloc[:, 1:7]
+features_test = test.iloc[:, 7:14]
+# features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size = 0.25)
 
 model = create_model()
-history = fit_model(model, features_train, labels_train, 1000, 512)
+history = fit_model(model, features_train, labels_train, 1500, 750)
 plot(history, "inverse_kinematics_network/model_history.png")
 val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
