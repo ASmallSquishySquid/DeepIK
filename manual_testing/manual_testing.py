@@ -3,7 +3,7 @@ import numpy as np
 from keras.models import load_model
 import matplotlib.pyplot as plt
 
-manual = pd.read_csv("manual_testing/Book1 edited.csv", header = None)
+manual = pd.read_csv("manual_testing/Book1.csv", header = None)
 manual_features = manual.iloc[:, :6]
 manual_labels = manual.iloc[:, 6:]
 model = load_model("forward_kinematics_network/network")
