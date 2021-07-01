@@ -5,17 +5,17 @@ import matplotlib.pyplot as plt
 
 # Forward model testing
 
-# manual = pd.read_csv("manual_testing/Book1.csv", header = None)
-# manual_features = manual.iloc[:, :6]
+manual = pd.read_csv("manual_testing/Book1.csv", header = None)
+manual_features = manual.iloc[:, :6]
 # manual_labels = manual.iloc[:, 6:9]
-# model = load_model("forward_kinematics_network/network")
+model = load_model("forward_kinematics_network/network")
 
 # # val_mse, val_mae = model.evaluate(manual_features, manual_labels, verbose = 0)
 # # print(val_mse, val_mae)
 
-# results = list(model.predict(manual_features))
-# predicted = pd.DataFrame(np.vstack(results))
-# predicted.to_csv("manual_testing/forward_predicted.csv")
+results = list(model.predict(manual_features))
+predicted = pd.DataFrame(np.vstack(results))
+predicted.to_csv("manual_testing/forward_predicted.csv")
 
 # given = pd.read_csv("manual_testing/Data exploration.csv", header = None)
 # x3 = given[0].tolist()
@@ -43,32 +43,31 @@ import matplotlib.pyplot as plt
 
 # Inverse model testing
 
-manual = pd.read_csv("manual_testing/Book1.csv", header = None)
-manual_labels = manual.iloc[:, :6]
-manual_features = manual.iloc[:, 6:]
+# Test on forward models predictions 
+manual = pd.read_csv("manual_testing/forward_predicted.csv")
+manual = manual.iloc[:, 1:]
 model = load_model("inverse_kinematics_network/network")
 
-# val_mse, val_mae = model.evaluate(manual_features, manual_labels, verbose = 0)
-# print(val_mse, val_mae)
+actual = pd.read_csv("manual_testing/Book1.csv", header = None)
 
-results = list(model.predict(manual_features))
+results = list(model.predict(manual))
 predicted = pd.DataFrame(np.vstack(results))
 predicted.to_csv("manual_testing/inverse_predicted.csv")
 
 fig, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(1, 6)
 x = range(151)
 y1 = predicted[0].tolist()
-y12 = manual[0].tolist()
+y12 = actual[0].tolist()
 y2 = predicted[1].tolist()
-y22 = manual[1].tolist()
+y22 = actual[1].tolist()
 y3 = predicted[2].tolist()
-y32 = manual[2].tolist()
+y32 = actual[2].tolist()
 y4 = predicted[3].tolist()
-y42 = manual[3].tolist()
+y42 = actual[3].tolist()
 y5 = predicted[4].tolist()
-y52 = manual[4].tolist()
+y52 = actual[4].tolist()
 y6 = predicted[5].tolist()
-y62 = manual[5].tolist()
+y62 = actual[5].tolist()
 ax1.plot(x, y1, label = "Predicted")
 ax1.plot(x, y12, label = "Actual")
 ax2.plot(x, y2, label = "Predicted")
