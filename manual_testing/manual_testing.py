@@ -47,7 +47,7 @@ def plot_forward(manual, predicted, given = None):
 	plt.show()
 	return
 
-plot_forward(manual, predicted)
+# plot_forward(manual, predicted)
 
 # Inverse model testing
 
