@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 manual = pd.read_csv("manual_testing/Book1.csv", header = None)
 manual_features = manual.iloc[:, :6]
 # manual_labels = manual.iloc[:, 6:9]
-model = load_model("forward_kinematics_network/network")
+forward = load_model("forward_kinematics_network/network")
 
 # val_mse, val_mae = model.evaluate(manual_features, manual_labels, verbose = 0)
 # print(val_mse, val_mae)
 
-results = list(model.predict(manual_features))
-predicted = pd.DataFrame(np.vstack(results))
-predicted.to_csv("manual_testing/forward_predicted.csv")
+results = list(forward.predict(manual_features))
+forward_predicted = pd.DataFrame(np.vstack(results))
+forward_predicted.to_csv("manual_testing/forward_predicted.csv")
 
 given = pd.read_csv("manual_testing/Data exploration.csv", header = None)
 
@@ -44,25 +44,24 @@ def plot_forward(manual, predicted, given = None):
 	ax2.set(xlabel = "Y-Value", xlim = [-1, 1])
 	plt.legend()
 	plt.savefig("manual_testing/foward_comparison.png")
-	plt.show()
-	return
+	return ax1, ax2
 
-# plot_forward(manual, predicted)
+# plot_forward(manual, forward_predicted)
 
 # Inverse model testing
 
-# Test on forward models predictions 
+# Test on forward models predictions
 manual = pd.read_csv("manual_testing/forward_predicted.csv")
 manual = manual.iloc[:, 1:]
-model = load_model("inverse_kinematics_network/network")
+inverse = load_model("inverse_kinematics_network/network")
 
 actual = pd.read_csv("manual_testing/Book1.csv", header = None)
 
-results = list(model.predict(manual))
-predicted = pd.DataFrame(np.vstack(results))
-predicted.to_csv("manual_testing/inverse_predicted.csv")
+results = list(inverse.predict(manual))
+inverse_predicted = pd.DataFrame(np.vstack(results))
+inverse_predicted.to_csv("manual_testing/inverse_predicted.csv")
 
-def plot_inverse(actual, predicted):
+def plot_inverse_motors(actual, predicted):
 	'''
 	Plots the inverse model's predictions against the actual values
 	'''
@@ -100,7 +99,23 @@ def plot_inverse(actual, predicted):
 	ax6.set(xlabel = "Motor 6", ylim = [-2, 2])
 	plt.legend()
 	plt.savefig("manual_testing/inverse_comparison.png")
-	plt.show()
+	return
+# plot_inverse_motors(actual, inverse_predicted)
+
+def forward_inverse_forward(manual, forward_predicted, inverse_predicted):
+	''' Plot forward -> inverse -> forward
+	'''
+	ax1, ax2 = plot_forward(manual, forward_predicted)
+	results = list(forward.predict(inverse_predicted))
+	forward_again = pd.DataFrame(np.vstack(results))
+	forward_again.to_csv("manual_testing/forward_inverse_forward_predicted.csv")
+	x = forward_again[0].tolist()
+	y = forward_again[1].tolist()
+	z = forward_again[2].tolist()
+	ax1.plot(x, z, label = "Inverse")
+	ax2.plot(y, z, label = "Inverse")
+	plt.savefig("manual_testing/forward_inverse_forward_comparison.png")
 	return
 
-# plot_inverse(actual, predicted)
+forward_inverse_forward(pd.read_csv("manual_testing/Book1.csv", header = None), forward_predicted, inverse_predicted)
+plt.show()
