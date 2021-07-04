@@ -5,19 +5,15 @@ import matplotlib.pyplot as plt
 
 # Forward model testing
 
-manual = pd.read_csv("manual_testing/Book1.csv", header = None)
-manual_features = manual.iloc[:, :6]
-# manual_labels = manual.iloc[:, 6:9]
+actual = pd.read_csv("manual_testing/Book1.csv", header = None)
+manual = actual.iloc[:, :6]
 forward = load_model("forward_kinematics_network/network")
 
-# val_mse, val_mae = model.evaluate(manual_features, manual_labels, verbose = 0)
-# print(val_mse, val_mae)
-
-results = list(forward.predict(manual_features))
+results = list(forward.predict(manual))
 forward_predicted = pd.DataFrame(np.vstack(results))
 forward_predicted.to_csv("manual_testing/forward_predicted.csv")
 
-given = pd.read_csv("manual_testing/Data exploration.csv", header = None)
+# given = pd.read_csv("manual_testing/Data exploration.csv", header = None)
 
 def plot_forward(manual, predicted, given = None):
 	'''
@@ -50,12 +46,9 @@ def plot_forward(manual, predicted, given = None):
 
 # Inverse model testing
 
-# Test on forward models predictions
 manual = pd.read_csv("manual_testing/forward_predicted.csv")
 manual = manual.iloc[:, 1:]
 inverse = load_model("inverse_kinematics_network/network")
-
-actual = pd.read_csv("manual_testing/Book1.csv", header = None)
 
 results = list(inverse.predict(manual))
 inverse_predicted = pd.DataFrame(np.vstack(results))
@@ -117,5 +110,5 @@ def forward_inverse_forward(manual, forward_predicted, inverse_predicted):
 	plt.savefig("manual_testing/forward_inverse_forward_comparison.png")
 	return
 
-forward_inverse_forward(pd.read_csv("manual_testing/Book1.csv", header = None), forward_predicted, inverse_predicted)
+forward_inverse_forward(actual, forward_predicted, inverse_predicted)
 plt.show()
