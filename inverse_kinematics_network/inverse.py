@@ -53,7 +53,7 @@ features_test = test.iloc[:, 7:14]
 # features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size = 0.25)
 
 model = create_model()
-history = fit_model(model, features_train, labels_train, 1500, 750)
+history = fit_model(model, features_train, labels_train, 1500, 5000)
 plot(history, "inverse_kinematics_network/model_history.png")
 val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)

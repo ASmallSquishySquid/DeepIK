@@ -93,7 +93,8 @@ def plot_inverse_motors(actual, predicted):
 	plt.legend()
 	plt.savefig("manual_testing/inverse_comparison.png")
 	return
-# plot_inverse_motors(actual, inverse_predicted)
+plot_inverse_motors(actual, inverse_predicted)
+plt.show()
 
 def forward_inverse_forward(manual, forward_predicted, inverse_predicted):
 	''' Plot forward -> inverse -> forward
