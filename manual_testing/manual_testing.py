@@ -108,6 +108,7 @@ def forward_inverse_forward(manual, forward_predicted, inverse_predicted):
 	z = forward_again[2].tolist()
 	ax1.plot(x, z, label = "Inverse")
 	ax2.plot(y, z, label = "Inverse")
+	plt.legend()
 	plt.savefig("manual_testing/forward_inverse_forward_comparison.png")
 	return
 
