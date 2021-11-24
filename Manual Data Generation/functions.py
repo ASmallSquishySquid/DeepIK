@@ -17,3 +17,7 @@ def independent(theta1, theta2, theta3, length1, length2, length3, length4):
 	x = length2 * math.sin(theta1) + length3 * math.sin(theta1 + theta2) + length4 * math.sin(theta1 + theta2 + theta3)
 	y = length1 + length2 * math.cos(theta1) + length3 * math.cos(theta1 + theta2) + length4 * math.cos(theta1 + theta2 + theta3)
 	return x, y
+
+def together(p1, p2, p3, length):
+	theta1, theta2, theta3, length1, length2, length3, length4 = dependent(p1, p2, p3, length)
+	return independent(theta1, theta2, theta3, length1, length2, length3, length4)
