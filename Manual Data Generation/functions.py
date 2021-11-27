@@ -1,7 +1,7 @@
 import math
 
 def f(power):
-	return 25 * (power - 1)
+	return max([0, 25 * (power - 1)])
 
 def dependent(p1, p2, p3, length):
 	theta1 = math.radians(f(p1))

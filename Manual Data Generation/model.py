@@ -57,4 +57,4 @@ val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
 
 model.save("Manual Data Generation/model")
-# 0.08822154253721237 0.13985607028007507
+# 0.17701222002506256 0.18400001525878906
