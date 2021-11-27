@@ -15,6 +15,11 @@ def generation(powers):
 
 availablePowers = [1, 2, 3]
 generator = generation(availablePowers)
-print(generator)
 
-# np.savetxt("generated_data.csv", generator, delimiter = ",")
+# generate 540 points
+i= 0
+while (i < 19):
+	generator = np.concatenate((generator, generation(availablePowers)))
+	i +=1
+
+np.savetxt("Manual Data Generation/generated_data.csv", generator, delimiter = ",")
