@@ -12,5 +12,6 @@ for i in range(4):
 	x, y = check.T
 
 	plt.plot(x, y)
+	plt.axis("equal")
 	plt.savefig("Tracking Data Check/check{img}.png".format(img = img))
 	plt.show()
