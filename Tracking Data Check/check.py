@@ -37,12 +37,12 @@ import random
 # plt.savefig("Tracking Data Check/Forks/check.png")
 
 # plot over background
-f = 10
+f = 15
 with open("Tracking Data Check/Run {f}/pos{f}t5.pkl".format(f = f), "rb") as file:
 	data = joblib.load(file)
 
-for img in [82, 161, 244, 348, 375, 405, 433, 531, 539, 665]:
-	check = np.array(data["default"][img])
+for img in [71, 114, 140, 371, 482, 498, 532, 544, 665, 715]:
+	check = np.array(data["default"][img - 1])
 	x, y = check.T
 	plt.scatter(x, y, s = 0.05)
 	back = plt.imread("Tracking Data Check\Run {f}\pat{img}t=5.bmp".format(f = f, img = img))
