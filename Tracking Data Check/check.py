@@ -37,15 +37,30 @@ import random
 # plt.savefig("Tracking Data Check/Forks/check.png")
 
 # plot over background
-f = 15
-with open("Tracking Data Check/Run {f}/pos{f}t5.pkl".format(f = f), "rb") as file:
-	data = joblib.load(file)
+# f = 15
+# with open("Tracking Data Check/Run {f}/pos{f}t5.pkl".format(f = f), "rb") as file:
+# 	data = joblib.load(file)
 
-for img in [71, 114, 140, 371, 482, 498, 532, 544, 665, 715]:
-	check = np.array(data["default"][img - 1])
-	x, y = check.T
-	plt.scatter(x, y, s = 0.05)
-	back = plt.imread("Tracking Data Check\Run {f}\pat{img}t=5.bmp".format(f = f, img = img))
-	plt.imshow(back)
-	plt.savefig("Tracking Data Check\Run {f}\overlay_{img}.png".format(f = f, img = img))
-	plt.cla()
+# for img in [71, 114, 140, 371, 482, 498, 532, 544, 665, 715]:
+# 	check = np.array(data["default"][img - 1])
+# 	x, y = check.T
+# 	plt.scatter(x, y, s = 0.05)
+# 	back = plt.imread("Tracking Data Check\Run {f}\pat{img}t=5.bmp".format(f = f, img = img))
+# 	plt.imshow(back)
+# 	plt.savefig("Tracking Data Check\Run {f}\overlay_{img}.png".format(f = f, img = img))
+# 	plt.cla()
+
+# check new run
+# with open("Tracking Data Check/Rerun/pos.pkl", "rb") as file:
+# 	data = joblib.load(file)
+
+# for img in range(620, 623):
+# 	check = np.array(data["default"][img])
+# 	x, y = check.T
+
+# 	plt.plot(x, y)
+# 	plt.axis("equal")
+# 	plt.gca().invert_yaxis()
+# 	# only 12 and 15 are numbered properly
+# 	plt.savefig("Tracking Data Check/Rerun/check{img}.png".format(img = img + 1))
+# 	plt.cla()
