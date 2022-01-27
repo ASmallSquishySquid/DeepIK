@@ -58,4 +58,4 @@ val_mse, val_mae = model.evaluate(features_test, labels_test, verbose = 0)
 print(val_mse, val_mae)
 
 model.save("Spring 2022\Model Run\model")
-# 0.8733850717544556 0.7840223908424377
+# 0.8739451766014099 0.7839075922966003
