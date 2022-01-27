@@ -51,20 +51,16 @@ import random
 # 	plt.cla()
 
 # check new run
-# with open("Tracking Data Check/Rerun/pos.pkl", "rb") as file:
-# 	data = joblib.load(file)
-
-# for img in range(620, 623):
-# 	check = np.array(data["default"][img])
-# 	x, y = check.T
-
-# 	plt.plot(x, y)
-# 	plt.axis("equal")
-# 	plt.gca().invert_yaxis()
-# 	# only 12 and 15 are numbered properly
-# 	plt.savefig("Tracking Data Check/Rerun/check{img}.png".format(img = img + 1))
-# 	plt.cla()
-
-with open("Tracking Data Check/Rerun/pos.pkl", "rb") as file:
+with open("Spring 2022\Tracking Data Check\Rerun\pos.pkl", "rb") as file:
 	data = joblib.load(file)
-print(data["default"][620][-1])
+
+for img in range(620, 623):
+	check = np.array(data["default"][img])
+	x, y = check.T
+
+	plt.plot(x, y)
+	plt.axis("equal")
+	plt.gca().invert_yaxis()
+	# only 12 and 15 are numbered properly
+	plt.savefig("Spring 2022\Tracking Data Check\Rerun\check{img}.png".format(img = img + 1))
+	plt.cla()
