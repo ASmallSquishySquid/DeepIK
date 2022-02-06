@@ -3,4 +3,5 @@ RNG and Cropping/Images
 **/__pycache__
 *.png
 *.mat
+*.bmp
 /Spring 2022/ObtainCoordinates.m
