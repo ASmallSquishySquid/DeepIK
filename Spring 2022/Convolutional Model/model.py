@@ -10,6 +10,7 @@ from keras.layers import Flatten
 from keras.optimizers import SGD
 from keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
+from keras import backend as K
 
 # for i in range(1, 10):
 # 	im = Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))
@@ -34,6 +35,10 @@ def load_data():
 
 trainX, trainY, testX, testY = load_data()
 
+# restrict outputs between 1 and 3
+def restrict(x):
+	return K.sigmoid(x) * 2 + 1
+
 # define cnn model
 def create_model():
 	model = Sequential()
@@ -41,7 +46,7 @@ def create_model():
 	model.add(MaxPooling2D((2, 2)))
 	model.add(Flatten())
 	model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
-	model.add(Dense(6))
+	model.add(Dense(6, activation=restrict))
 	# compile model
 	opt = SGD(learning_rate=0.01, momentum=0.9)
 	model.compile(optimizer=opt, loss='mse', metrics=['mae'])
@@ -78,4 +83,4 @@ val_mse, val_mae = model.evaluate(testX, testY, verbose = 0)
 print(val_mse, val_mae)
 
 model.save("Spring 2022\Convolutional Model\model")
-# 0.3280571699142456 0.4047742784023285
+# 0.3141476809978485 0.38290849328041077
