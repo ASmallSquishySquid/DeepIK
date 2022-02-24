@@ -12,18 +12,7 @@ from keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from keras import backend as K
 
-# for i in range(1, 10):
-# 	im = Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))
-# 	# im = im.point(lambda p: 255 if p > 150 else 0)
-# 	# im = im.convert("1")
-# 	data = np.array(im)
-# 	# define subplot
-# 	plt.subplot(330 + i)
-# 	# plot raw pixel data
-# 	plt.imshow(data, cmap=plt.get_cmap('gray'))
-
-# plt.show()
-
+# load the data in training and testing sets
 def load_data():
 	dataX = np.array([np.array(Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))) for i in range(1, 730)])
 	dataX = dataX.reshape((dataX.shape[0], 20, 20, 1))
@@ -33,7 +22,14 @@ def load_data():
 	trainX, testX, trainY, testY = train_test_split(dataX, dataY, test_size = 0.2, shuffle = True)
 	return trainX, trainY, testX, testY
 
-trainX, trainY, testX, testY = load_data()
+# load all the data into a test set
+def load_full_data():
+	dataX = np.array([np.array(Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))) for i in range(1, 730)])
+	dataX = dataX.reshape((dataX.shape[0], 20, 20, 1))
+	dataX = dataX.astype('float32')
+	dataX = dataX / 255.0
+	dataY = pd.read_csv("Spring 2022\Convolutional Model\Data.csv", header=None, delimiter=",").to_numpy()
+	return dataX, dataY
 
 # restrict outputs between 1 and 3
 def restrict(x):
@@ -58,6 +54,7 @@ def fit_model(model, features, labels, epochs, batch_size):
 	history = model.fit(features, labels, epochs = epochs, verbose = 1, callbacks=[stop], batch_size=batch_size, validation_split = 0.1)
 	return history
 
+# plot the model history
 def plot(history, path):
 	#plotting
 	fig, axs = plt.subplots(1, 2, gridspec_kw={'hspace': 1, 'wspace': 0.5}) 
@@ -76,11 +73,25 @@ def plot(history, path):
 
 	plt.savefig(path)
 
-model = create_model()
-history = fit_model(model, trainX, trainY, 1500, 25)
-plot(history, "Spring 2022\Convolutional Model\model_history.png")
-val_mse, val_mae = model.evaluate(testX, testY, verbose = 0)
-print(val_mse, val_mae)
+# train the model
+# if flag is true, split into train/test set, if false only train
+def train(flag):
+	if flag:
+		trainX, trainY, testX, testY = load_data()
+	else:
+		trainX, trainY = load_full_data()
+	
+	model = create_model()
+	history = fit_model(model, trainX, trainY, 1500, 25)
+	plot(history, "Spring 2022\Convolutional Model\model_history.png")
 
-model.save("Spring 2022\Convolutional Model\model")
+	if flag:
+		val_mse, val_mae = model.evaluate(testX, testY, verbose = 0)
+		print(val_mse, val_mae)
+		model.save("Spring 2022\Convolutional Model\model")
+	else:
+		model.save("Spring 2022\Convolutional Model\model_full_data")
+
+train(False)
+
 # 0.3141476809978485 0.38290849328041077
