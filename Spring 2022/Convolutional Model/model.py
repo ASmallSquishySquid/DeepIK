@@ -33,7 +33,7 @@ def load_full_data():
 
 # restrict outputs between 1 and 3
 def restrict(x):
-	return K.sigmoid(x) * 2 + 1
+	return K.sigmoid(x) * 5
 
 # define cnn model
 def create_model():
