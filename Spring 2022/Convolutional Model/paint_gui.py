@@ -47,8 +47,8 @@ class ImageDrawing:
 			self.yold = event.y
 
 	def save(self):
-		self.image.convert("L").resize((20, 20)).save("generated_images\generated_{i}.bmp".format(i = counter))
-		messagebox.showinfo("Image saved", "Saved as generated_{i}.bmp in generated_images folder".format(i = counter))
+		self.image.convert("L").resize((20, 20)).save("generated_images\generated_{i}.bmp".format(i = self.counter))
+		messagebox.showinfo("Image saved", "Saved as generated_{i}.bmp in generated_images folder".format(i = self.counter))
 		self.counter += 1
 		self.clear_canvas()
 
