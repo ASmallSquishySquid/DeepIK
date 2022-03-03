@@ -2,57 +2,58 @@
 
 from tkinter import *
 from tkinter import messagebox
+from PIL import ImageGrab
 from PIL import Image
+from PIL import ImageDraw
 
-"""paint.py: not exactly a paint program.. just a smooth line drawing demo."""
+class ImageDrawing:
+	def __init__(self, parent):
+		self.parent = parent
+		self.b1 = "up"
+		self.xold, self.yold = None, None
+		self.counter = 1
+		self.drawing_area = Canvas(root, width=200, height=200, bg="black")
+		self.drawing_area.pack()
+		self.drawing_area.bind("<Motion>", self.motion)
+		self.drawing_area.bind("<ButtonPress-1>", self.b1down)
+		self.drawing_area.bind("<ButtonRelease-1>", self.b1up)
+		self.drawing_area.create_rectangle(90, 0, 110, 5, fill="white")
+		self.button1 = Button(root, text="Clear", command=self.clear_canvas)
+		self.button1.pack()
+		self.button2 = Button(root, text="Save", command=self.save)
+		self.button2.pack()
+		self.image = Image.new("1",(200,200))
+		self.draw = ImageDraw.Draw(self.image)
 
-b1 = "up"
-xold, yold = None, None
-counter = 1
+	def clear_canvas(self):
+		self.drawing_area.delete("all")
+		self.image=Image.new("1",(200,200))
+		self.draw=ImageDraw.Draw(self.image)
 
-def clear_canvas():
-	drawing_area.delete("all")
+	def b1down(self, event):
+		self.b1 = "down"
 
-def b1down(event):
-	global b1
-	b1 = "down"           # you only want to draw when the button is down
-						  # because "Motion" events happen -all the time-
+	def b1up(self, event):
+		self.b1 = "up"
+		self.xold = None           # reset the line when you let go of the button
+		self.yold = None
 
-def b1up(event):
-	global b1, xold, yold
-	b1 = "up"
-	xold = None           # reset the line when you let go of the button
-	yold = None
+	def motion(self, event):
+		if self.b1 == "down":
+			if self.xold is not None and self.yold is not None:
+				event.widget.create_line(self.xold, self.yold, event.x,event.y,smooth=TRUE, width=20, fill="white")
+				self.draw.line(((self.xold, self.yold), (event.x,event.y)), 1, width=20)
+			self.xold = event.x
+			self.yold = event.y
 
-def motion(event):
-	if b1 == "down":
-		global xold, yold
-		if xold is not None and yold is not None:
-			event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, width=20)
-						  # here's where you draw it. smooth. neat.
-		xold = event.x
-		yold = event.y
+	def save(self):
+		self.image.convert("L").resize((20, 20)).save("generated_images\generated_{i}.bmp".format(i = counter))
+		messagebox.showinfo("Image saved", "Saved as generated_{i}.bmp in generated_images folder".format(i = counter))
+		self.counter += 1
+		self.clear_canvas()
 
-def save_as_png():
-	global counter
-	filename = "generated_images/generated_{i}".format(i = counter)
-	# save postscipt image
-	drawing_area.postscript(file = filename + ".eps")
-	# use PIL to convert to PNG 
-	img = Image.open(filename + '.eps')
-	img = img.resize([20, 20])
-	img.save(filename + '.bmp', 'bmp')
-	messagebox.showinfo("Image saved", "Saved as hrgenerated_{i}.bmp in generated_images folder".format(i = counter))
-	counter += 1
-	
-root = Tk()
-drawing_area = Canvas(root, width=200, height=200)
-drawing_area.pack()
-drawing_area.bind("<Motion>", motion)
-drawing_area.bind("<ButtonPress-1>", b1down)
-drawing_area.bind("<ButtonRelease-1>", b1up)
-button1 = Button(root, text="Clear", command=clear_canvas)
-button1.pack()
-button2 = Button(root, text="Save", command=save_as_png)
-button2.pack()
-root.mainloop()
+if __name__ == "__main__":
+	root = Tk()
+	root.title("Draw")
+	ImageDrawing(root)
+	root.mainloop()
