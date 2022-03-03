@@ -29,6 +29,7 @@ class ImageDrawing:
 		self.drawing_area.delete("all")
 		self.image=Image.new("1",(200,200))
 		self.draw=ImageDraw.Draw(self.image)
+		self.drawing_area.create_rectangle(90, 0, 110, 5, fill="white")
 
 	def b1down(self, event):
 		self.b1 = "down"
