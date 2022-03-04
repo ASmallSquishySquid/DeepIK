@@ -1,29 +1,36 @@
-# Based on paint program by Dave Michell. https://svn.python.org/projects/python/trunk/Demo/tkinter/guido/paint.py
-
+import ctypes
+from os import scandir, remove, makedirs
 from tkinter import *
 from tkinter import messagebox
-from PIL import ImageGrab
-from PIL import Image
-from PIL import ImageDraw
+from PIL import Image, ImageDraw
 
 class ImageDrawing:
-	def __init__(self, parent):
-		self.parent = parent
+	def __init__(self):
+		self.ask = Tk()
+		self.ask.title("Set counter")
+		Label(self.ask, text="What number should the counter start with?").pack()
+		self.text = Entry(self.ask, bd=5)
+		self.text.pack()
+		self.ask.bind("<Return>", self.get_count)
+		Button(self.ask, text="Enter", command=self.get_count).pack()
+		self.ask.mainloop()
+
+	def canvas(self):
+		parent = Tk()
+		parent.title("Draw")
 		self.b1 = "up"
 		self.xold, self.yold = None, None
-		self.counter = 1
-		self.drawing_area = Canvas(root, width=200, height=200, bg="black")
+		self.drawing_area = Canvas(parent, width=200, height=200, bg="black")
 		self.drawing_area.pack()
 		self.drawing_area.bind("<Motion>", self.motion)
 		self.drawing_area.bind("<ButtonPress-1>", self.b1down)
 		self.drawing_area.bind("<ButtonRelease-1>", self.b1up)
 		self.drawing_area.create_rectangle(90, 0, 110, 5, fill="white")
-		self.button1 = Button(root, text="Clear", command=self.clear_canvas)
-		self.button1.pack()
-		self.button2 = Button(root, text="Save", command=self.save)
-		self.button2.pack()
+		Button(parent, text="Clear", command=self.clear_canvas).pack()
+		Button(parent, text="Save", command=self.save).pack()
 		self.image = Image.new("1",(200,200))
 		self.draw = ImageDraw.Draw(self.image)
+		parent.mainloop()
 
 	def clear_canvas(self):
 		self.drawing_area.delete("all")
@@ -53,8 +60,32 @@ class ImageDrawing:
 		self.counter += 1
 		self.clear_canvas()
 
+	def get_count(self, event=None):
+		self.counter = int(self.text.get())
+		self.ask.destroy()
+		self.canvas()
+
+def check():
+	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over all images " + 
+		"in generated images. Are you sure you want to do this?", "Are you sure?", 1)
+	if confirm == 1:
+		print("Removing old images from generated_images...")
+		try:
+			for file in scandir("generated_images"):
+				remove(file.path)
+			print("Removed.")
+		except:
+			print("generated_images doesn't exist.")
+		makedirs("generated_images")
+		return;
+	else:
+		quit()
+
+# TODO prompt ask for counter
+
+def main():
+	ImageDrawing()
+
 if __name__ == "__main__":
-	root = Tk()
-	root.title("Draw")
-	ImageDrawing(root)
-	root.mainloop()
+	check()
+	main()
