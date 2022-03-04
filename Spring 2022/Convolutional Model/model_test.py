@@ -27,17 +27,6 @@ def get_outliers(model, move, cutoff):
 
 get_outliers("model_full_data", "large_error_images2", 2.5)
 
-def run_test_images(model):
-	data = np.array([np.array(Image.open("Spring 2022\Convolutional Model\\test_images\{i}.bmp".format(i = i)).convert('L')) for i in range(1, 6)])
-	data = data.reshape((data.shape[0], 20, 20, 1))
-	data = data.astype('float32')
-	data = data / 255.0
-
-	model = load_model("Spring 2022\Convolutional Model\{model}".format(model = model))
-	print(model.predict(data))
-
-run_test_images("model_full_data")
-
 # no restrictions
 # [ 1.7724707  -0.31886363  1.7546438   3.1824336   3.072391    1.9521682 ]
 # [ 1.1584855   2.1541724   3.319425    4.0313277   2.574594   -0.22015475]
