@@ -1,10 +1,10 @@
-from keras.models import load_model
-import numpy as np
+from numpy import array
 import ctypes
-import os
+from os import scandir
 from run import output_results
 from tkinter import *
 from PIL import Image
+from keras.models import load_model
 
 class VariableGetter:
 	def __init__(self):
@@ -37,7 +37,7 @@ def confirm():
 
 def run_test_images(model, folder):
 	print("\nProcessing...")
-	data = np.array([np.array(Image.open(file.path)) for file in os.scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
+	data = array([array(Image.open(file.path)) for file in scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
 	data = data.reshape((data.shape[0], 20, 20, 1))
 	data = data.astype('float32')
 	data = data / 255.0
@@ -50,8 +50,11 @@ def run_test_images(model, folder):
 	model = load_model(model)
 	return model.predict(data)
 
-if __name__ == "__main__":
+def main():
 	confirm()
 	vars = VariableGetter()
 	results = run_test_images(vars.get_model(), vars.get_folder())
 	output_results(results)
+
+if __name__ == "__main__":
+	main()
