@@ -1,27 +1,33 @@
-import numpy as np
+from numpy import array, savetxt
 import ctypes
-import os
+from os import scandir, remove
+import paint_gui
 from tkinter import *
 from keras.models import load_model
 from PIL import Image
-from prompt_toolkit import prompt
 
 def check():
 	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over results.csv and all images " + 
 		"in generated images. Are you sure you want to do this?", "Are you sure?", 1)
 	if confirm == 1:
 		print("Removing old images from generated_images...")
-		for file in os.scandir("generated_images"):
-			os.remove(file.path)
+		try:
+			for file in scandir("generated_images"):
+				remove(file.path)
+		except:
+			print("generated_images doesn't exist.")
 		print("Removing results.csv...")
-		os.remove("results.csv")
+		try:
+			remove("results.csv")
+		except:
+			print("reults.csv doesn't exist.")
 		print("Removed.")
 		return;
 	else:
 		quit()
 
 def run_test_images(model):
-	data = np.array([np.array(Image.open(file.path)) for file in os.scandir("generated_images")])
+	data = array([array(Image.open(file.path)) for file in scandir("generated_images")])
 	data = data.reshape((data.shape[0], 20, 20, 1))
 	data = data.astype('float32')
 	data = data / 255.0
@@ -33,7 +39,7 @@ def output_results(results):
 	print("\nLaser outputs:")
 	for result in results:
 		print(result)
-	np.savetxt("results.csv", results, delimiter=",")
+	savetxt("results.csv", results, delimiter=",")
 	ctypes.windll.user32.MessageBoxW(0, "Laser patterns have been output to the terminal and results.csv", "Confirmation", 0)
 
 class ModelPrompt:
@@ -53,10 +59,13 @@ class ModelPrompt:
 		self.model = self.E1.get()
 		self.prompt.destroy()
 
-if __name__ == "__main__":
+def main():
 	check()
-	exec(open("paint_gui.py").read())
+	paint_gui.main()
 	prompt = ModelPrompt()
 	model = prompt.get_model()
 	results = run_test_images(model)
 	output_results(results)
+
+if __name__ == "__main__":
+	main()
