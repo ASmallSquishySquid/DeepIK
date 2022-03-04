@@ -33,5 +33,7 @@ def output_results(results):
 if __name__ == "__main__":
 	check()
 	exec(open("paint_gui.py").read())
-	results = run_test_images("model")
+	print("Enter model name:")
+	model = input()
+	results = run_test_images(model)
 	output_results(results)

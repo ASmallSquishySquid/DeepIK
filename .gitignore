@@ -5,3 +5,4 @@ RNG and Cropping/Images
 *.mat
 *.bmp
 /Spring 2022/ObtainCoordinates.m
+Spring 2022/Convolutional Model/results.csv

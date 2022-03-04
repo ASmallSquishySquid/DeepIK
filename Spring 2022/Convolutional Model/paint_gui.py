@@ -1,4 +1,4 @@
-# Paint program by Dave Michell. https://svn.python.org/projects/python/trunk/Demo/tkinter/guido/paint.py
+# Based on paint program by Dave Michell. https://svn.python.org/projects/python/trunk/Demo/tkinter/guido/paint.py
 
 from tkinter import *
 from tkinter import messagebox
