@@ -4,6 +4,7 @@ import numpy as np
 import ctypes
 import os
 from run import output_results
+from tkinter import *
 
 model = "";
 folder = "";
@@ -14,11 +15,21 @@ def confirm():
 		quit()
 
 def get_vars():
-	global model, folder
-	print("Please input model name:")
-	model = input()
-	print("Please input folder name:")
-	folder = input()
+	top = Tk()
+	L1 = Label(top, text="Model name")
+	L1.pack( side = LEFT)
+	E1 = Entry(top, bd =5)
+	E1.pack(side = RIGHT)
+	L2 = Label(top, text="Folder")
+	L2.pack( side = LEFT)
+	E2 = Entry(top, bd =5)
+	E2.pack(side = RIGHT)
+	button1 = Button(top, text="Enter", command=get_vars_helper)
+	button1.pack()
+	top.mainloop()
+
+def get_vars_helper():
+	pass
 
 def run_test_images(model):
 	print("\nProcessing...")
