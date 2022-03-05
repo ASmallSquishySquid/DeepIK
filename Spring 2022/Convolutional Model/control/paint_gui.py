@@ -81,8 +81,6 @@ def check():
 	else:
 		quit()
 
-# TODO prompt ask for counter
-
 def main():
 	ImageDrawing()
 
