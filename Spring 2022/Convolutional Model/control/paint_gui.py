@@ -76,7 +76,7 @@ def check():
 			print("Removed.")
 		except:
 			print("generated_images doesn't exist.")
-		makedirs("generated_images")
+			makedirs("generated_images")
 		return;
 	else:
 		quit()
