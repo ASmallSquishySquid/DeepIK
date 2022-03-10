@@ -25,7 +25,7 @@ class ImageDrawing:
 		self.drawing_area.bind("<Motion>", self.motion)
 		self.drawing_area.bind("<ButtonPress-1>", self.b1down)
 		self.drawing_area.bind("<ButtonRelease-1>", self.b1up)
-		self.drawing_area.create_rectangle(90, 0, 110, 5, fill="white")
+		self.drawing_area.create_rectangle(95, 0, 105, 5, fill="white")
 		Button(parent, text="Clear", command=self.clear_canvas).pack()
 		Button(parent, text="Save", command=self.save).pack()
 		self.image = Image.new("1",(200,200))
@@ -49,7 +49,7 @@ class ImageDrawing:
 	def motion(self, event):
 		if self.b1 == "down":
 			if self.xold is not None and self.yold is not None:
-				event.widget.create_line(self.xold, self.yold, event.x,event.y,smooth=TRUE, width=20, fill="white")
+				event.widget.create_line(self.xold, self.yold, event.x,event.y,smooth=TRUE, width=10, fill="white")
 				self.draw.line(((self.xold, self.yold), (event.x,event.y)), 1, width=20)
 			self.xold = event.x
 			self.yold = event.y
