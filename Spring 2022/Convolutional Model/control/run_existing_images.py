@@ -37,7 +37,7 @@ def confirm():
 
 def run_test_images(model, folder):
 	print("\nProcessing...")
-	data = array([array(Image.open(file.path)) for file in scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
+	data = array([array(Image.open(file.path).convert("L").resize([20, 20])) for file in scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
 	data = data.reshape((data.shape[0], 20, 20, 1))
 	data = data.astype('float32')
 	data = data / 255.0
