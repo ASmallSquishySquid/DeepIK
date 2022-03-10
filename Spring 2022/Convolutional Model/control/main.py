@@ -3,7 +3,6 @@ from tkinter import *
 def paint(event=None):
 	top.destroy()
 	import paint_gui
-	paint_gui.check()
 	paint_gui.main()
 
 def existing(event=None):

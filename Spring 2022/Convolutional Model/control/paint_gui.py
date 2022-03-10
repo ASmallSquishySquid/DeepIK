@@ -1,5 +1,4 @@
-import ctypes
-from os import scandir, remove, makedirs
+from os import makedirs
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageDraw
@@ -7,12 +6,15 @@ from PIL import Image, ImageDraw
 class ImageDrawing:
 	def __init__(self):
 		self.ask = Tk()
-		self.ask.title("Set counter")
+		self.ask.title("Set folder name and counter")
+		Label(self.ask, text="What folder should the images be saved in?").pack()
+		self.name = Entry(self.ask, bd=5)
+		self.name.pack()
 		Label(self.ask, text="What number should the counter start with?").pack()
-		self.text = Entry(self.ask, bd=5)
-		self.text.pack()
-		self.ask.bind("<Return>", self.get_count)
-		Button(self.ask, text="Enter", command=self.get_count).pack()
+		self.count = Entry(self.ask, bd=5)
+		self.count.pack()
+		self.ask.bind("<Return>", self.set_vars)
+		Button(self.ask, text="Enter", command=self.set_vars).pack()
 		self.ask.mainloop()
 
 	def canvas(self):
@@ -28,6 +30,8 @@ class ImageDrawing:
 		self.drawing_area.create_rectangle(95, 0, 105, 5, fill="white")
 		Button(parent, text="Clear", command=self.clear_canvas).pack()
 		Button(parent, text="Save", command=self.save).pack()
+		parent.bind("<Return>", self.save)
+		parent.bind("<BackSpace>", self.clear_canvas)
 		self.image = Image.new("1",(200,200))
 		self.draw = ImageDraw.Draw(self.image)
 		parent.mainloop()
@@ -55,35 +59,29 @@ class ImageDrawing:
 			self.yold = event.y
 
 	def save(self):
-		self.image.convert("L").resize((20, 20)).save("generated_images\generated_{i}.bmp".format(i = self.counter))
-		messagebox.showinfo("Image saved", "Saved as generated_{i}.bmp in generated_images folder".format(i = self.counter))
+		self.image.convert("L").resize((20, 20)).save("{folder_name}\generated_{i}.bmp".format(i = self.counter, folder_name = self.folder))
+		messagebox.showinfo("Image saved", "Saved as generated_{i}.bmp in folder {folder_name}".format(i = self.counter, folder_name = self.folder))
 		self.counter += 1
 		self.clear_canvas()
 
-	def get_count(self, event=None):
-		self.counter = int(self.text.get())
-		self.ask.destroy()
-		self.canvas()
+	def set_vars(self, event=None):
+		folder = self.name.get()
+		count = self.count.get()
+		if (folder and count):
+			confirm = messagebox.askokcancel("Warning", "This process may overwrite images in {folder_name} with label greater than or equal to {count}.".format(folder_name = folder, count = int(count)))
+			if confirm:
+				self.folder = folder
+				makedirs(self.folder, exist_ok=True)
+				self.counter = int(count)
+				self.ask.destroy()
+				self.canvas()
 
-def check():
-	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over all images " + 
-		"in generated images. Are you sure you want to do this?", "Are you sure?", 1)
-	if confirm == 1:
-		print("Removing old images from generated_images...")
-		try:
-			for file in scandir("generated_images"):
-				remove(file.path)
-			print("Removed.")
-		except:
-			print("generated_images doesn't exist.")
-			makedirs("generated_images")
-		return;
-	else:
-		quit()
+	def get_folder(self):
+		return self.folder
 
 def main():
-	ImageDrawing()
+	drawing = ImageDrawing()
+	return drawing.get_folder()
 
 if __name__ == "__main__":
-	check()
 	main()

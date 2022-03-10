@@ -1,7 +1,6 @@
-from numpy import array
+from numpy import array, savetxt
 import ctypes
 from os import scandir
-from run import output_results
 from tkinter import *
 from PIL import Image
 from keras.models import load_model
@@ -32,7 +31,15 @@ class VariableGetter:
 
 def confirm():
 	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over results.csv. Are you sure you want to do this?", "Are you sure?", 1)
-	if confirm != 1:
+	if confirm == 1:
+		print("Removing results.csv...")
+		try:
+			remove("results.csv")
+			print("Removed.")
+		except:
+			print("reults.csv doesn't exist.")
+		return;
+	else:
 		quit()
 
 def run_test_images(model, folder):
@@ -49,6 +56,13 @@ def run_test_images(model, folder):
 
 	model = load_model(model)
 	return model.predict(data)
+
+def output_results(results):
+	print("\nLaser outputs:")
+	for result in results:
+		print(result)
+	savetxt("results.csv", results, delimiter=",")
+	ctypes.windll.user32.MessageBoxW(0, "Laser patterns have been output to the terminal and results.csv", "Confirmation", 0)
 
 def main():
 	confirm()
