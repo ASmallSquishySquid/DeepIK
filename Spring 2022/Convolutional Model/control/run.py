@@ -35,7 +35,10 @@ class ModelPrompt:
 
 	def save_model(self, event=None):
 		self.model = self.E1.get()
-		self.prompt.destroy()
+		if self.model:
+			self.prompt.destroy()
+		else:
+			self.E1["bg"] = "misty rose"
 
 def main():
 	check()

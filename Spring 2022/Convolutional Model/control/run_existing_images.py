@@ -28,7 +28,18 @@ class VariableGetter:
 	def get_vars_button(self, event=None):
 		self.model = self.E1.get()
 		self.folder = self.E2.get()
-		self.top.destroy()
+		if self.model and self.folder:
+			self.top.destroy()
+		else:
+			if self.model == "":
+				self.E1["bg"] = "misty rose"
+			else:
+				self.E1["bg"] = "snow"
+			
+			if self.folder == "":
+				self.E2["bg"] = "misty rose"
+			else:
+				self.E2["bg"] = "snow"
 
 def confirm():
 	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over results.csv. Are you sure you want to do this?", "Are you sure?", 1)
@@ -62,7 +73,13 @@ def run_test_images(model, folder):
 	data = data / 255.0
 
 	from keras.models import load_model
-	model = load_model(model)
+	try:
+		model = load_model(model)
+	except:
+		ctypes.windll.user32.MessageBoxW(0, "This model does not exist", "Not a valid model", 0)
+		print("Program terminated")
+		quit()
+	
 	return model.predict(data)
 
 def output_results(results):

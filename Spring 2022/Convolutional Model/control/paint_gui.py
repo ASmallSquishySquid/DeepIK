@@ -6,12 +6,13 @@ from PIL import Image, ImageDraw
 class ImageDrawing:
 	def __init__(self):
 		self.ask = Tk()
+		self.ask.configure(background="white")
 		self.ask.title("Set folder name and counter")
 		self.ask.iconbitmap("resources/question.ico")
-		Label(self.ask, text="What folder should the images be saved in?").pack()
-		self.name = Entry(self.ask, bd=5)
+		Label(self.ask, text="What folder should the images be saved in?", background="white").pack()
+		self.name = Entry(self.ask, bd=5,)
 		self.name.pack()
-		Label(self.ask, text="What number should the counter start with?").pack()
+		Label(self.ask, text="What number should the counter start with?", background="white").pack()
 		self.count = Entry(self.ask, bd=5)
 		self.count.pack()
 		self.ask.bind("<Return>", self.set_vars)
@@ -21,17 +22,18 @@ class ImageDrawing:
 	def canvas(self):
 		parent = Tk()
 		parent.title("Draw")
+		parent.configure(background="white")
 		parent.iconbitmap("resources/paint.ico")
 		self.b1 = "up"
 		self.xold, self.yold = None, None
 		self.drawing_area = Canvas(parent, width=200, height=200, bg="black")
-		self.drawing_area.pack()
+		self.drawing_area.grid(row=0, column=0, columnspan=2)
 		self.drawing_area.bind("<Motion>", self.motion)
 		self.drawing_area.bind("<ButtonPress-1>", self.b1down)
 		self.drawing_area.bind("<ButtonRelease-1>", self.b1up)
 		self.drawing_area.create_rectangle(95, 0, 105, 5, fill="white")
-		Button(parent, text="Clear", command=self.clear_canvas).pack()
-		Button(parent, text="Save", command=self.save).pack()
+		Button(parent, text="Clear", command=self.clear_canvas, background="IndianRed1").grid(row=1, column=0, pady=2)
+		Button(parent, text="Save", command=self.save, background="PaleGreen1").grid(row=1, column=1, pady=2)
 		parent.bind("<Return>", self.save)
 		parent.bind("<BackSpace>", self.clear_canvas)
 		self.image = Image.new("1",(200,200))
@@ -77,6 +79,17 @@ class ImageDrawing:
 				self.counter = int(count)
 				self.ask.destroy()
 				self.canvas()
+		else:
+			if self.name.get() == "":
+				self.name["bg"] = "misty rose"
+			else:
+				self.name["bg"] = "snow"
+			
+			if self.count.get() == "":
+				self.count["bg"] = "misty rose"
+			else:
+				self.count["bg"] = "snow"
+
 
 	def get_folder(self):
 		return self.folder
