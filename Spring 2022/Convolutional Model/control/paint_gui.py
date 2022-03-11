@@ -27,13 +27,14 @@ class ImageDrawing:
 		self.b1 = "up"
 		self.xold, self.yold = None, None
 		self.drawing_area = Canvas(parent, width=200, height=200, bg="black")
-		self.drawing_area.grid(row=0, column=0, columnspan=2)
+		self.drawing_area.grid(row=0, column=0, columnspan=3)
 		self.drawing_area.bind("<Motion>", self.motion)
 		self.drawing_area.bind("<ButtonPress-1>", self.b1down)
 		self.drawing_area.bind("<ButtonRelease-1>", self.b1up)
 		self.drawing_area.create_rectangle(95, 0, 105, 5, fill="white")
 		Button(parent, text="Clear", command=self.clear_canvas, background="IndianRed1").grid(row=1, column=0, pady=2)
 		Button(parent, text="Save", command=self.save, background="PaleGreen1").grid(row=1, column=1, pady=2)
+		Button(parent, text="Done", command=parent.destroy, background="SkyBlue1").grid(row=1, column=2, pady=2)
 		parent.bind("<Return>", self.save)
 		parent.bind("<BackSpace>", self.clear_canvas)
 		self.image = Image.new("1",(200,200))
