@@ -40,7 +40,7 @@ class ImageDrawing:
 		self.drawing_area.delete("all")
 		self.image=Image.new("1",(200,200))
 		self.draw=ImageDraw.Draw(self.image)
-		self.drawing_area.create_rectangle(90, 0, 110, 5, fill="white")
+		self.drawing_area.create_rectangle(95, 0, 105, 5, fill="white")
 
 	def b1down(self, event):
 		self.b1 = "down"
@@ -68,7 +68,7 @@ class ImageDrawing:
 		folder = self.name.get()
 		count = self.count.get()
 		if (folder and count):
-			confirm = messagebox.askokcancel("Warning", "This process may overwrite images in {folder_name} with label greater than or equal to {count}.".format(folder_name = folder, count = int(count)))
+			confirm = messagebox.askokcancel("Warning", "This process may overwrite images in folder {folder_name} with label greater than or equal to {count}.".format(folder_name = folder, count = int(count)))
 			if confirm:
 				self.folder = folder
 				makedirs(self.folder, exist_ok=True)
