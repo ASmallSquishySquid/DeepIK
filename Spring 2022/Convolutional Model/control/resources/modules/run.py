@@ -1,7 +1,7 @@
 import ctypes
 from os import remove
-import paint_gui
-from run_existing_images import run_test_images, output_results
+import resources.modules.paint_gui as paint_gui
+from resources.modules.run_existing_images import run_test_images, output_results
 from tkinter import *
 
 def check():
