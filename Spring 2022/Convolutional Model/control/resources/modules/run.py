@@ -22,7 +22,7 @@ class ModelPrompt:
 	def __init__(self):
 		self.prompt = Tk()
 		self.prompt.title("Name Prompt")
-		self.prompt.iconbitmap("resources/question.ico")
+		self.prompt.iconbitmap("resources/icons/question.ico")
 		self.L1 = Label(self.prompt, text="Model name").grid(row=0, column=0)
 		self.E1 = Entry(self.prompt, bd =5)
 		self.E1.grid(row=0, column=2)

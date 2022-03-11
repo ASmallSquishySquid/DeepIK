@@ -8,7 +8,7 @@ class VariableGetter:
 	def __init__(self):
 		self.top = Tk()
 		self.top.title("Name Prompt")
-		self.top.iconbitmap("resources/question.ico")
+		self.top.iconbitmap("resources/icons/question.ico")
 		self.L1 = Label(self.top, text="Model name").grid(row=0, column=0)
 		self.E1 = Entry(self.top, bd =5)
 		self.E1.grid(row=0, column=2)

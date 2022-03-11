@@ -2,23 +2,23 @@ from tkinter import *
 
 def paint(event=None):
 	top.destroy()
-	import paint_gui
+	import resources.modules.paint_gui as paint_gui
 	paint_gui.main()
 
 def existing(event=None):
 	top.destroy()
-	import run_existing_images
+	import resources.modules.run_existing_images as run_existing_images
 	run_existing_images.main()
 
 def run_all(event=None):
 	top.destroy()
-	import run
+	import resources.modules.run as run
 	run.main()
 
 if __name__ == "__main__":
 	top = Tk()
 	top.title("Welcome!")
-	top.iconbitmap("resources/home.ico")
+	top.iconbitmap("resources/icons/home.ico")
 	top.configure(background="white")
 	Label(top, text="Welcome to PS Paint! What would you like to do?", background="white").grid(row=0)
 	top.bind("1", paint)

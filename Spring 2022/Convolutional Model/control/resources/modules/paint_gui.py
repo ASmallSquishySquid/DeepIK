@@ -8,7 +8,7 @@ class ImageDrawing:
 		self.ask = Tk()
 		self.ask.configure(background="white")
 		self.ask.title("Set folder name and counter")
-		self.ask.iconbitmap("resources/question.ico")
+		self.ask.iconbitmap("resources/icons/question.ico")
 		Label(self.ask, text="What folder should the images be saved in?", background="white").pack()
 		self.name = Entry(self.ask, bd=5,)
 		self.name.pack()
@@ -23,7 +23,7 @@ class ImageDrawing:
 		parent = Tk()
 		parent.title("Draw")
 		parent.configure(background="white")
-		parent.iconbitmap("resources/paint.ico")
+		parent.iconbitmap("resources/icons/paint.ico")
 		self.b1 = "up"
 		self.xold, self.yold = None, None
 		self.drawing_area = Canvas(parent, width=200, height=200, bg="black")
