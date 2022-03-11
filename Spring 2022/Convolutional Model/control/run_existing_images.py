@@ -3,11 +3,12 @@ import ctypes
 from os import scandir
 from tkinter import *
 from PIL import Image
-from keras.models import load_model
 
 class VariableGetter:
 	def __init__(self):
 		self.top = Tk()
+		self.top.title("Name Prompt")
+		self.top.iconbitmap("resources/question.ico")
 		self.L1 = Label(self.top, text="Model name").grid(row=0, column=0)
 		self.E1 = Entry(self.top, bd =5)
 		self.E1.grid(row=0, column=2)
@@ -44,16 +45,23 @@ def confirm():
 
 def run_test_images(model, folder):
 	print("\nProcessing...")
-	data = array([array(Image.open(file.path).convert("L").resize([20, 20])) for file in scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
-	data = data.reshape((data.shape[0], 20, 20, 1))
-	data = data.astype('float32')
-	data = data / 255.0
+	try:
+		data = array([array(Image.open(file.path).convert("L").resize([20, 20])) for file in scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
+	except:
+		ctypes.windll.user32.MessageBoxW(0, "This folder does not exist", "Not a valid folder", 0)
+		print("Program terminated")
+		quit()
 
 	if len(data) == 0:
 		ctypes.windll.user32.MessageBoxW(0, "There are no .bmp files in this folder", "No valid files", 0)
 		print("Program terminated")
 		quit()
+	
+	data = data.reshape((data.shape[0], 20, 20, 1))
+	data = data.astype('float32')
+	data = data / 255.0
 
+	from keras.models import load_model
 	model = load_model(model)
 	return model.predict(data)
 
