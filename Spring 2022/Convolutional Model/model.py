@@ -50,8 +50,8 @@ def create_model():
 
 # train the model
 def fit_model(model, features, labels, epochs, batch_size):
-	stop = EarlyStopping(monitor = "val_loss", mode = "min", verbose = 1, patience = (epochs * 0.1))
-	history = model.fit(features, labels, epochs = epochs, verbose = 1, callbacks=[stop], batch_size=batch_size, validation_split = 0.1)
+	stop = EarlyStopping(monitor = "loss", mode = "min", verbose = 1, patience = (epochs * 0.1))
+	history = model.fit(features, labels, epochs = epochs, verbose = 1, callbacks=[stop], batch_size=batch_size, validation_split = 0)
 	return history
 
 # plot the model history
@@ -82,8 +82,8 @@ def train(flag):
 		trainX, trainY = load_full_data()
 	
 	model = create_model()
-	history = fit_model(model, trainX, trainY, 1500, 25)
-	plot(history, "Spring 2022\Convolutional Model\model_history.png")
+	history = fit_model(model, trainX, trainY, 1500, 100)
+	# plot(history, "Spring 2022\Convolutional Model\model_history.png")
 
 	if flag:
 		val_mse, val_mae = model.evaluate(testX, testY, verbose = 0)
