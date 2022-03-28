@@ -4,9 +4,10 @@ import numpy as np
 import pandas as pd
 import shutil
 from matplotlib import pyplot as plt
+from os import scandir
 
 def load_data():
-	dataX = np.array([np.array(Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))) for i in range(1, 730)])
+	dataX = np.array([np.array(Image.open(file.path)) for file in scandir("Spring 2022\Convolutional Images") if file.name.endswith(".bmp")])
 	dataX = dataX.reshape((dataX.shape[0], 20, 20, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
@@ -26,7 +27,7 @@ def get_outliers(model, move):
 	for i in indices:
 		shutil.copy("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i), "Spring 2022\Convolutional Model\{move}".format(move = move))
 
-get_outliers("model_full_data", "large_error_images3")
+get_outliers("model_full_data", "large_error_images2")
 
 # no restrictions
 # [ 1.7724707  -0.31886363  1.7546438   3.1824336   3.072391    1.9521682 ]

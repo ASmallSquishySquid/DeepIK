@@ -11,6 +11,7 @@ from keras.optimizers import SGD
 from keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from keras import backend as K
+from os import scandir
 
 # load the data in training and testing sets
 def load_data():
@@ -24,7 +25,7 @@ def load_data():
 
 # load all the data into a test set
 def load_full_data():
-	dataX = np.array([np.array(Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))) for i in range(1, 730)])
+	dataX = np.array([np.array(Image.open(file.path)) for file in scandir("Spring 2022\Convolutional Images") if file.name.endswith(".bmp")])
 	dataX = dataX.reshape((dataX.shape[0], 20, 20, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
