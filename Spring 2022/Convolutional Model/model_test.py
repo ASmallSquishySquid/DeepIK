@@ -13,19 +13,20 @@ def load_data():
 	dataY = pd.read_csv("Spring 2022\Convolutional Model\Data.csv", header=None, delimiter=",").to_numpy()
 	return dataX, dataY
 
-def get_outliers(model, move, cutoff):
+def get_outliers(model, move):
 	model = load_model("Spring 2022\Convolutional Model\{model}".format(model = model))
 	dataX, dataY = load_data()
 	results = model.predict(dataX)
 	differences = np.abs(results - dataY).sum(axis = 1).reshape(-1)
 	plt.boxplot(differences)
 	plt.savefig("Spring 2022\Convolutional Model\{move}\distribution.png".format(move = move))
+	cutoff = 1.5 * np.subtract(*np.percentile(differences, [75, 25])) + np.percentile(differences, 75)
 	indices = np.where(differences > cutoff)[0] + 1
 
 	for i in indices:
 		shutil.copy("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i), "Spring 2022\Convolutional Model\{move}".format(move = move))
 
-get_outliers("model_full_data", "large_error_images2", 2.5)
+get_outliers("model_full_data", "large_error_images3")
 
 # no restrictions
 # [ 1.7724707  -0.31886363  1.7546438   3.1824336   3.072391    1.9521682 ]
