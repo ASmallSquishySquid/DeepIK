@@ -15,6 +15,7 @@ def pad(num):
 	import csv
 	from PIL import ImageOps
 	samples = random.sample(range(1, 730), num)
+	i = 1
 	for sample in samples:
 		im = Image.open("Spring 2022\\Convolutional Images\pat{i}.bmp".format(i = sample))
 		k = random.randint(0, 1)
@@ -24,7 +25,8 @@ def pad(num):
 		else:
 			im = ImageOps.expand(im, border=(5, 0, 0, 0), fill=(0))
 			im = im.crop((0, 0, 20, 20))
-		im.save("Spring 2022\\Convolutional Images\pat{i}.bmp".format(i = 729 + sample))
+		im.save("Spring 2022\\Convolutional Images\pat{i}.bmp".format(i = 729 + i))
+		i += 1
 
 	with open("Spring 2022\Convolutional Model\Data.csv", "r", newline='') as file:
 		read = csv.reader(file)
@@ -35,4 +37,4 @@ def pad(num):
 		write.writerows(rows)
 
 		
-pad(5)
+pad(100)
