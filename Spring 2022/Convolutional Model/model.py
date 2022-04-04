@@ -26,10 +26,10 @@ def load_data():
 # load all the data into a test set
 def load_full_data():
 	dataX = np.array([np.array(Image.open(file.path)) for file in scandir("Spring 2022\Convolutional Images") if file.name.endswith(".bmp")])
-	dataX = dataX.reshape((dataX.shape[0], 20, 20, 1))
+	dataX = dataX.reshape((dataX.shape[0], 35, 35, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
-	dataY = pd.read_csv("Spring 2022\Convolutional Model\Data.csv", header=None, delimiter=",").to_numpy()
+	dataY = pd.read_csv("Spring 2022\Convolutional Model\\NewData.csv", header=None, delimiter=",").to_numpy()
 	return dataX, dataY
 
 # restrict outputs between 1 and 3
@@ -39,7 +39,7 @@ def restrict(x):
 # define cnn model
 def create_model():
 	model = Sequential()
-	model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(20, 20, 1)))
+	model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(35, 35, 1)))
 	model.add(MaxPooling2D((2, 2)))
 	model.add(Flatten())
 	model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))

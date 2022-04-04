@@ -21,18 +21,18 @@ def pad(num):
 		k = random.randint(0, 1)
 		if k:
 			im = ImageOps.expand(im, border=(0, 0, 5, 0), fill=(0))
-			im = im.crop((5, 0, 25, 20))
+			im = im.crop((5, 0, 40, 35))
 		else:
 			im = ImageOps.expand(im, border=(5, 0, 0, 0), fill=(0))
-			im = im.crop((0, 0, 20, 20))
+			im = im.crop((0, 0, 35, 35))
 		im.save("Spring 2022\\Convolutional Images\pat{i}.bmp".format(i = 729 + i))
 		i += 1
 
-	with open("Spring 2022\Convolutional Model\Data.csv", "r", newline='') as file:
+	with open("Spring 2022\Convolutional Model\\NewData.csv", "r", newline='') as file:
 		read = csv.reader(file)
-		rows = [row for idx, row in enumerate(read) if idx in samples]
+		rows = [row for idx, row in enumerate(read, 1) if idx in samples]
 	
-	with open("Spring 2022\Convolutional Model\Data.csv", "a", newline='') as file:
+	with open("Spring 2022\Convolutional Model\\NewData.csv", "a", newline='') as file:
 		write = csv.writer(file)
 		write.writerows(rows)
 

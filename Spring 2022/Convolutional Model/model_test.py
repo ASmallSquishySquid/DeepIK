@@ -8,10 +8,10 @@ from os import scandir
 
 def load_data():
 	dataX = np.array([np.array(Image.open(file.path)) for file in scandir("Spring 2022\Convolutional Images") if file.name.endswith(".bmp")])
-	dataX = dataX.reshape((dataX.shape[0], 20, 20, 1))
+	dataX = dataX.reshape((dataX.shape[0], 35, 35, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
-	dataY = pd.read_csv("Spring 2022\Convolutional Model\Data.csv", header=None, delimiter=",").to_numpy()
+	dataY = pd.read_csv("Spring 2022\Convolutional Model\\NewData.csv", header=None, delimiter=",").to_numpy()
 	return dataX, dataY
 
 def get_outliers(model, move):
