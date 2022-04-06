@@ -23,7 +23,7 @@ def get_outliers(model, move):
 	plt.savefig("Spring 2022\Convolutional Model\{move}\distribution.png".format(move = move))
 	cutoff = 1.5 * np.subtract(*np.percentile(differences, [75, 25])) + np.percentile(differences, 75)
 	indices = np.where(differences > cutoff)[0] + 1
-
+	print(len(indices))
 	for i in indices:
 		shutil.copy("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i), "Spring 2022\Convolutional Model\{move}".format(move = move))
 
