@@ -32,9 +32,9 @@ def load_full_data():
 	dataY = pd.read_csv("Spring 2022\Convolutional Model\\NewData.csv", header=None, delimiter=",").to_numpy()
 	return dataX, dataY
 
-# restrict outputs between 1 and 3
-def restrict(x):
-	return K.sigmoid(x) * 5
+# # restrict outputs between 1 and 3
+# def restrict(x):
+# 	return K.sigmoid(x) * 5
 
 # define cnn model
 def create_model():
@@ -43,7 +43,7 @@ def create_model():
 	model.add(MaxPooling2D((2, 2)))
 	model.add(Flatten())
 	model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
-	model.add(Dense(6, activation=restrict))
+	model.add(Dense(6, activation="sigmoid"))
 	# compile model
 	opt = SGD(learning_rate=0.01, momentum=0.9)
 	model.compile(optimizer=opt, loss='mse', metrics=['mae'])

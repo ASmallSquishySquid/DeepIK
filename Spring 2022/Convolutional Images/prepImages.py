@@ -17,7 +17,7 @@ def pad(num):
 	samples = random.sample(range(1, 730), num)
 	i = 1
 	for sample in samples:
-		im = Image.open("Spring 2022\\Convolutional Images\pat{i}.bmp".format(i = sample))
+		im = Image.open("Spring 2022\\Convolutional Images\pat{i}t=16.bmp".format(i = sample))
 		k = random.randint(0, 1)
 		if k:
 			im = ImageOps.expand(im, border=(0, 0, 5, 0), fill=(0))
@@ -25,7 +25,7 @@ def pad(num):
 		else:
 			im = ImageOps.expand(im, border=(5, 0, 0, 0), fill=(0))
 			im = im.crop((0, 0, 35, 35))
-		im.save("Spring 2022\\Convolutional Images\pat{i}.bmp".format(i = 729 + i))
+		im.save("Spring 2022\\Convolutional Images\pat{i}t=16.bmp".format(i = 729 + i))
 		i += 1
 
 	with open("Spring 2022\Convolutional Model\\NewData.csv", "r", newline='') as file:

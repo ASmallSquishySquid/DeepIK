@@ -25,7 +25,9 @@ def get_outliers(model, move):
 	indices = np.where(differences > cutoff)[0] + 1
 	print(len(indices))
 	for i in indices:
-		shutil.copy("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i), "Spring 2022\Convolutional Model\{move}".format(move = move))
+		shutil.copy("Spring 2022\Convolutional Images\pat{i}t=16.bmp".format(i = i), "Spring 2022\Convolutional Model\{move}".format(move = move))
+	if len(indices) != 0:
+		print(model.predict(dataX[indices - 1]))
 
 get_outliers("model_full_data", "large_error_images2")
 
