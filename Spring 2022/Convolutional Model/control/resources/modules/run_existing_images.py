@@ -1,6 +1,6 @@
 from numpy import array, savetxt
 import ctypes
-from os import scandir
+from os import scandir, remove
 from tkinter import *
 from PIL import Image
 
@@ -88,6 +88,7 @@ def output_results(results):
 		print(result)
 	savetxt("results.csv", results, delimiter=",")
 	ctypes.windll.user32.MessageBoxW(0, "Laser patterns have been output to the terminal and results.csv", "Confirmation", 0)
+	input() 
 
 def main():
 	confirm()
