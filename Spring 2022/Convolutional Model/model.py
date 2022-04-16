@@ -10,7 +10,6 @@ from keras.layers import Flatten
 from keras.optimizers import SGD
 from keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
-from keras import backend as K
 from os import scandir
 
 # load the data in training and testing sets
@@ -40,7 +39,6 @@ def load_full_data():
 def create_model():
 	model = Sequential()
 	model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(35, 35, 1)))
-	model.add(MaxPooling2D((2, 2)))
 	model.add(Flatten())
 	model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
 	model.add(Dense(6, activation="sigmoid"))

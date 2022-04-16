@@ -29,7 +29,7 @@ def get_outliers(model, move):
 	if len(indices) != 0:
 		print(model.predict(dataX[indices - 1]))
 
-get_outliers("model_full_data", "large_error_images2")
+get_outliers("model_full_data", "large_error_images")
 
 # no restrictions
 # [ 1.7724707  -0.31886363  1.7546438   3.1824336   3.072391    1.9521682 ]
