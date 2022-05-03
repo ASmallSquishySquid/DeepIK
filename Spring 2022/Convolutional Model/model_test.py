@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from os import scandir
 
 def load_data():
-	dataX = np.array([np.array(Image.open(file.path)) for file in scandir("Spring 2022\Convolutional Images") if file.name.endswith(".bmp")])
+	dataX = np.array([np.array(Image.open("Spring 2022\Convolutional Images\pat{i}t=16.bmp".format(i = i))) for i in range(1, 730)])
 	dataX = dataX.reshape((dataX.shape[0], 35, 35, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
