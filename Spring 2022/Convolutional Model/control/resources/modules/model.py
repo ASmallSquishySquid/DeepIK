@@ -78,7 +78,7 @@ def load_full_data(folder, data):
 	dataX = np.array([np.array(PIL.Image.open(file.path)) for file in scandir(folder) if file.name.endswith("t=16.bmp")])
 	if len(dataX) == 0:
 		print("There were no images for time 16. Using all images in folder.")
-		dataX = np.array([np.array(PIL.Image.open(file.path)) for file in scandir(folder) if file.name.endswith(".bmp")])
+		dataX = np.array([np.array(PIL.Image.open(file.path).convert("L").resize((35, 35))) for file in scandir(folder) if file.name.endswith(".bmp")])
 	dataX = dataX.reshape((dataX.shape[0], 35, 35, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
