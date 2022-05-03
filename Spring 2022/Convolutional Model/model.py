@@ -24,7 +24,7 @@ def load_data():
 
 # load all the data into a test set
 def load_full_data():
-	dataX = np.array([np.array(Image.open(file.path)) for file in scandir("Spring 2022\Convolutional Images") if file.name.endswith(".bmp")])
+	dataX = np.array([np.array(Image.open("Spring 2022\Convolutional Images\pat{i}.bmp".format(i = i))) for i in range(1, 730)])
 	dataX = dataX.reshape((dataX.shape[0], 35, 35, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0

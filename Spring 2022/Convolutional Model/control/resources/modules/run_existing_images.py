@@ -1,8 +1,9 @@
 from numpy import array, savetxt
 import ctypes
-from os import scandir, remove
+import os
 from tkinter import *
-from PIL import Image
+import PIL.Image
+import csv
 
 class VariableGetter:
 	def __init__(self):
@@ -42,14 +43,22 @@ class VariableGetter:
 				self.E2["bg"] = "snow"
 
 def confirm():
-	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over results.csv. Are you sure you want to do this?", "Are you sure?", 1)
+	confirm = ctypes.windll.user32.MessageBoxW(0, "Performing this action will write over run_order.csv and results.csv. Are you sure you want to do this?", "Are you sure?", 1)
 	if confirm == 1:
 		print("Removing results.csv...")
 		try:
-			remove("results.csv")
+			os.remove("results.csv")
 			print("Removed.")
 		except:
 			print("reults.csv doesn't exist.")
+
+		print("Removing run_order.csv...")
+		try:
+			os.remove("run_order.csv")
+			print("Removed.")
+		except:
+			print("run_order doesn't exist.")
+		
 		return;
 	else:
 		quit()
@@ -57,7 +66,22 @@ def confirm():
 def run_test_images(model, folder):
 	print("\nProcessing...")
 	try:
-		data = array([array(Image.open(file.path).convert("L").resize([35, 35])) for file in scandir(folder) if file.name.endswith(".bmp") and file.is_file()])
+		# Get list of all files only in the given directory
+		list_of_files = filter(lambda x: os.path.isfile(os.path.join(folder, x)), os.listdir(folder))
+		# Sort list of files based on last modification time in ascending order
+		list_of_files = sorted(list_of_files,key = lambda x: os.path.getmtime(os.path.join(folder, x)))
+		list_of_files = [file for file in list_of_files if file.endswith(".bmp")]
+		print("File run order:")
+		print(list_of_files)
+		
+		with open("run_order.csv", "w+", newline="") as f:
+			write = csv.writer(f)
+			files = array(list_of_files)
+			files = files.reshape((files.shape[0], 1))
+			write.writerows(files)
+
+		data = array([array(PIL.Image.open("{folder}/{file}".format(folder=folder, file=file)).convert("L").resize([35, 35])) for file in list_of_files])
+
 	except:
 		ctypes.windll.user32.MessageBoxW(0, "This folder does not exist", "Not a valid folder", 0)
 		print("Program terminated")

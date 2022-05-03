@@ -8,7 +8,7 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.optimizers import SGD
 from keras.callbacks import EarlyStopping
-from os import scandir, removedirs
+from os import scandir, removedirs, listdir
 from tkinter import *
 
 class VariableGetter:
@@ -75,10 +75,10 @@ def confirm(model):
 
 # load all the data into a test set
 def load_full_data(folder, data):
-	dataX = np.array([np.array(PIL.Image.open(file.path)) for file in scandir(folder) if file.name.endswith("t=16.bmp")])
+	dataX = np.array([np.array(PIL.Image.open("pat{i}t=16.bmp".format(i=i))) for i in range(1, 730)])
 	if len(dataX) == 0:
 		print("There were no images for time 16. Using all images in folder.")
-		dataX = np.array([np.array(PIL.Image.open(file.path).convert("L").resize((35, 35))) for file in scandir(folder) if file.name.endswith(".bmp")])
+		quit();
 	dataX = dataX.reshape((dataX.shape[0], 35, 35, 1))
 	dataX = dataX.astype('float32')
 	dataX = dataX / 255.0
