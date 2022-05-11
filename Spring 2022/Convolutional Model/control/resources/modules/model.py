@@ -75,7 +75,7 @@ def confirm(model):
 
 # load all the data into a test set
 def load_full_data(folder, data):
-	dataX = np.array([np.array(PIL.Image.open("pat{i}t=16.bmp".format(i=i))) for i in range(1, 730)])
+	dataX = np.array([np.array(PIL.Image.open("{folder}/pat{i}t=16.bmp".format(folder = folder, i=i))) for i in range(1, 730)])
 	if len(dataX) == 0:
 		print("There were no images for time 16. Using all images in folder.")
 		quit();
@@ -95,6 +95,7 @@ def create_model():
 	# compile model
 	opt = SGD(learning_rate=0.01, momentum=0.9)
 	model.compile(optimizer=opt, loss='mse', metrics=['mae'])
+	model.summary()
 	return model
 
 def fit_model(model, features, labels, epochs, batch_size):
